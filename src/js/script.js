@@ -229,11 +229,11 @@
           }
         }
       }
-
+      thisProduct.priceSingle = price;
       /*multiply price by amount*/
       price *= thisProduct.amountWidget.value;
 
-      thisProduct.priceSingle = price;
+
 
       // update calculated price in the HTML
       thisProduct.priceElem.innerHTML = price;
@@ -260,17 +260,13 @@
     prepareCartProduct(){
       const thisProduct = this;
 
-      params[paramId] = {
-        label: param.label,
-        options: {}
-      };
-
       const productSummary = {
         id: thisProduct.id,
         name: thisProduct.data.name,
         amount: thisProduct.amountWidget.value,
         priceSingle: thisProduct.priceSingle,
-        price:thisProduct.amountWidget.value*thisProduct.priceSingle
+        price:thisProduct.amountWidget.value*thisProduct.priceSingle,
+        params: this.prepareCartProductParams()
       };
       return productSummary;
     }
@@ -405,15 +401,27 @@
     }
 
     add(menuProduct){
-      const thisCart = this;
-      const generatedHTML = templates.menuProduct(thisCart);
-      thisCart.element = utils.createDOMFromHTML(generatedHTML);
-      const menuContainer = document.querySelector(select.containerOf.menu);
+      const generatedHTML = templates.cartProduct(menuProduct);
+      const summaryElement = utils.createDOMFromHTML(generatedHTML);
       /*add element to menu*/
-      menuContainer.appendChild(thisCart.dom.productList);
+      this.dom.productList.appendChild(summaryElement);
       console.log('adding product:', menuProduct);
+
+      /*thisCart.products.push(menuProduct);
+      console.log('thisCart.products', thisCart.products);*/
     }
+
+
   }
+
+  /*class CartProduct {
+    constructor(menuProduct, element){
+
+      const thisCartProduct = this;
+    }
+  }*/
+
+
 
   const app = {
     initData: function(){
